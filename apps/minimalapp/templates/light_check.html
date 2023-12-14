@@ -1,0 +1,22 @@
+<!--light is on/off를 웹페이지에 표시하는 연습-->
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Name</title>
+    </head>
+    <body>
+        <!--onoff 변수에 on/off가 입력된 경우-->
+        {% if onoff in ['on', 'off'] %}
+        <h1>Light is {{ onoff }}</h1>
+        {% else %}
+        <h1>You need to write on or off</h1>
+        {% endif %}
+
+        <ul>
+            {% for user in users %}
+            <li><a href="{{ user.url }}">{{ user.username }}</a></li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>
