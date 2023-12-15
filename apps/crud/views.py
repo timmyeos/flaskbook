@@ -2,8 +2,9 @@ from flask import Blueprint, render_template, redirect, url_for
 
 from apps.app import db  # db를 import한다
 from apps.crud.models import User  # User 클래스를 import한다
-
 from apps.crud.forms import UserForm
+
+from flask_login import login_required  # 156 page: 로그인 필수로 만들기
 
 # Blueprint로 crud 앱을 생성한다
 crud = Blueprint(
@@ -16,11 +17,13 @@ crud = Blueprint(
 
 # index 엔드포인트를 작성하고 index.html을 반환한다
 @crud.route("/")
+@login_required
 def index():
     return render_template("crud/index.html")
 
 
 @crud.route("/sql")
+@login_required
 def sql():
     # # insert
     # # 사용자모델객체를 작성
@@ -48,6 +51,7 @@ def sql():
 
 
 @crud.route("/users/new", methods=["GET", "POST"])
+@login_required
 def create_user():
     # UserForm을 인스턴스화한다
     form = UserForm()
@@ -68,6 +72,7 @@ def create_user():
 
 
 @crud.route("/users")
+@login_required
 def users():
     # 사용자의 일람을 취득한다
     users = User.query.all()
@@ -76,6 +81,7 @@ def users():
 
 # 128 page
 @crud.route("/users/<user_id>", methods=["GET", "POST"])
+@login_required
 def edit_user(user_id):
     form = UserForm()
 
@@ -96,6 +102,7 @@ def edit_user(user_id):
 
 
 @crud.route("users/<user_id>/delete", methods=["POST"])
+@login_required
 def delete_user(user_id):
     user = User.query.filter_by(id=user_id).first()
     db.session.delete(user)
